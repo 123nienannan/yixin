@@ -2,7 +2,7 @@
  <div class="wrapper">
     <div class="index_scan">
       <div class="click_pic">
-        <input type="file" accept="image/*" @change="fileUpload">
+        <input type="file" ref="inputer" accept="image/*" multiple @change="fileUpload">
       </div>
       <div class="scan">
         <div class="scan_photo">
@@ -14,22 +14,23 @@
         <span>点击上传非美颜正面免冠照</span>
     </div>
     <div class="index_info">
-      <span>
-        公司名称
-        <input type="text" v-model="companyName" placeholder="请输入公司名称">
-      </span>
-      <span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名
-        <input type="text" v-model="personName" placeholder="请输入您的姓名">
-      </span>
-      <span>
-        &nbsp;&nbsp;&nbsp;手机号
-        <input type="text" v-model="mobilePhone" placeholder="请输入您的手机号码">
-      </span>
+      <div>
+        <span>公司名称</span>
+        <input type="text" v-model="companyName" @blur="blurHandle" placeholder="请输入公司名称">
+      </div>
+      <div>
+        <span class="username">姓名</span>
+        <input type="text" v-model="personName" @blur="blurHandle" placeholder="请输入您的姓名">
+      </div>
+      <div>
+        <span class="mobile">手机号</span>
+        <input type="text" v-model="mobilePhone" @blur="blurHandle" placeholder="请输入您的手机号码">
+      </div>
     </div>
     <div class="confirm" @click="enroll">
        上传照片并报名
     </div>
+    <p class="question">如有问题，请拨打电话18516772134</p>
  </div>
 </template>
 
@@ -124,40 +125,45 @@ export default {
       if(this.photoUrl=="") {
         this.$toast({
           message: '请上传照片',
-          position: 'top',
+          position: 'middle',
           duration: 1500,
+          className: "changeFont"
         });
         return
       }
       if(this.companyName == "") {
         this.$toast({
           message: '公司名称为必填项',
-          position: 'top',
-          duration: 1500
+          position: 'middle',
+          duration: 1500,
+          className: "changeFont"
         });
         return
       }
       if(this.personName == "") {
         this.$toast({
           message: '用户名为必填项',
-          position: 'top',
-          duration: 1500
+          position: 'middle',
+          duration: 1500,
+          className: "changeFont"
         });
         return
       }
       if(this.mobilePhone == "") {
          this.$toast({
           message: '手机号码为必填项',
-          position: 'top',
-          duration: 1500
+          position: 'middle',
+          duration: 1500,
+          className: "changeFont"
         });
         return
       }
       if(!(/^1[3456789]\d{9}$/.test(this.mobilePhone))) {
         this.$toast({
           message: '手机号码格式不正确',
-          position: 'top',
-          duration: 1500
+          position: 'middle',
+          duration: 1500,
+          className: "changeFont"
         });
         return
       }
@@ -170,7 +176,7 @@ export default {
       const res = await this.$http.post('/wx/person/add',params)
       this.$toast({
           message: '报名成功',
-          position: 'top',
+          position: 'middle',
           duration: 1500,
           className: "success"
         });
@@ -179,29 +185,45 @@ export default {
       this.personName = ""
       this.mobilePhone = ""
       this.picVal = require('../../assets/images/line.png')
+    },
+    blurHandle () {
+      setTimeout(() => {
+        const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+        window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+      }, 100);
     }
   },
+  mounted () {
+    var ua = navigator.userAgent.toLowerCase()
+    if(ua.indexOf('android') > -1 || ua.indexOf('adr') > -1){
+      if(ua.indexOf(' qq/') > -1){
+        this.$refs.inputer.setAttribute("capture","camera")
+      }
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
 .wrapper {
-  width: 100%;
-  height: 100%;
   overflow-y:auto;
   position: absolute;
-  background: url("../../assets/images/background.png") no-repeat;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: url("../../assets/images/background.jpg") no-repeat;
   background-size: cover;
   .index_scan {
     position: relative;
-    padding-top: 48px;
+    padding-top: 144px;
     .click_pic {
-      margin-top: 48px;
+      margin-top: 144px;
       position: absolute;
       left: 50%;
       top: 0;
       margin-left: -188px;
-      width: 376px;
+      width: 374px;
       height: 375px;
       input {
         opacity: 0;
@@ -215,7 +237,7 @@ export default {
       justify-content: center;
       align-items: center;
       margin: 0 auto;
-      width: 376px;
+      width: 374px;
       height: 375px;
       background: url("../../assets/images/scan.png") no-repeat;
       background-size: cover;
@@ -223,8 +245,8 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 344px;
-        height: 343px;
+        width: 357px;
+        height: 356px;
         overflow: hidden;
         img {
           width: 100%;
@@ -236,7 +258,7 @@ export default {
     margin-top: 46px;
     display: flex;
     justify-content: center;
-    font-size: 30px;
+    font-size: 24px;
     letter-spacing: 1px;
     color: #fff;
      span {
@@ -264,25 +286,35 @@ export default {
      }
   }
   .index_info {
-    margin-top: 126px;
-    span {
-      margin: 0 auto;
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: center;
+    margin-top: 125px;
+    div {
+      margin: 0 auto 20px;
       width: 479px;
-      height: 78px;
-      line-height: 78px;
-      border-radius: 39px;
-      border: 1px solid #fff;
-      color: #fff;
-      font-size: 24px;
+      position: relative;
+      span{
+        font-size:24px;
+        color:#ffffff;
+        position: absolute;
+        text-align: right;
+        top:50%;
+        transform: translateY(-50%);
+        left:20px;
+        &.username {
+          text-indent: 2em;
+        }
+        &.mobile {
+          text-indent: 1em;
+        }
+      }
       input {
+        width:100%;
+        padding:24px 5px 24px 140px;
+        box-sizing: border-box;
         outline: none;
+        border: 2px solid #fff;
         background-color: transparent;
-        border: 0;
         font-size: 24px;
-        text-indent: 2em;
+        border-radius:40px;
         color: #fff;
       }
     }
@@ -290,23 +322,33 @@ export default {
   .confirm {
       color: #fff;
       width: 480px;
-      margin:40px auto;
+      margin:70px auto 0;
       text-align: center;
       line-height: 80px;
-      font-size: 30px;
+      font-size: 24px;
       height: 80px;
       background: #4f38fc;
       border-radius:40px;
       background-size: cover;
-    }
+  }
+  .question {
+    text-align: center;
+    color: #fff;
+    padding-top: 15px;
+    font-size: 24px;
+  }
 }
 </style>
 <style>
 .success {
-    width: 300px;
+    width: 500px;
     font-size: 16px;
     color: green !important;
-    background-color: #fff;
+    background-color: #fdf6ec;
+  }
+  .changeFont {
+    width: 400px;
+    font-size: 16px;
   }
 </style>
 
