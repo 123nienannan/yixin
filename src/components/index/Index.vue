@@ -1,48 +1,38 @@
 <template>
  <div class="wrapper">
-    <div class="index">
-     <!-- <div class="index_top">
-        <div class="top_pic">
-          <img src="../../assets/images/logo.png">
+    <div class="index_scan">
+      <div class="click_pic">
+        <input type="file" accept="image/*" @change="fileUpload">
+      </div>
+      <div class="scan">
+        <div class="scan_photo">
+          <img :data-src="photoUrl" :src="picVal">
         </div>
-        <div class="top_title">2019新品发布会</div>
-     </div> -->
-     <div class="index_scan">
-       <div class="click_pic">
-         <input type="file" accept="image/*" @change="fileUpload">
-       </div>
-       <div class="scan">
-         <div class="scan_photo">
-           <img :data-src="photoUrl" :src="picVal">
-         </div>
-       </div>
-     </div>
-     <div class="scan_btn">
-          <span>点击上传非美颜正面免冠照</span>
-     </div>
-     <div class="index_info">
-       <span>
-         公司名称
-         <input type="text" v-model="companyName" placeholder="请输入公司名称">
-       </span>
-       <span>
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名
-         <input type="text" v-model="personName" placeholder="请输入您的姓名">
-       </span>
-       <span>
-         &nbsp;&nbsp;&nbsp;手机号
-         <input type="text" v-model="mobilePhone" placeholder="请输入您的手机号码">
-       </span>
-     </div>
-     <div class="index_confirm">
-        <div class="confirm" @click="enroll">
-          上传照片并报名
-        </div>
-     </div>
-     <div class="index_foot">
-       <div class="foot"></div>
-     </div>
-  </div>
+      </div>
+    </div>
+    <div class="scan_btn">
+        <span>点击上传非美颜正面免冠照</span>
+    </div>
+    <div class="index_info">
+      <span>
+        公司名称
+        <input type="text" v-model="companyName" placeholder="请输入公司名称">
+      </span>
+      <span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名
+        <input type="text" v-model="personName" placeholder="请输入您的姓名">
+      </span>
+      <span>
+        &nbsp;&nbsp;&nbsp;手机号
+        <input type="text" v-model="mobilePhone" placeholder="请输入您的手机号码">
+      </span>
+    </div>
+    <div class="confirm" @click="enroll">
+       上传照片并报名
+    </div>
+    <div class="index_foot">
+      <div class="foot"></div>
+    </div>
  </div>
 </template>
 
@@ -125,18 +115,20 @@ export default {
       }
     },
     async postImg (data) {
+      this.$indicator.open()
       const res = await this.$http.post('/file/upload/base64',{file:data})
       if(res.data.data) {
         this.photoUrl = res.data.data
         this.picVal = res.data.data
       }
+      this.$indicator.close()
     },
     async enroll () {
       if(this.photoUrl=="") {
         this.$toast({
           message: '请上传照片',
           position: 'top',
-          duration: 5000,
+          duration: 1500,
         });
         return
       }
@@ -144,7 +136,7 @@ export default {
         this.$toast({
           message: '公司名称为必填项',
           position: 'top',
-          duration: 5000
+          duration: 1500
         });
         return
       }
@@ -152,7 +144,7 @@ export default {
         this.$toast({
           message: '用户名为必填项',
           position: 'top',
-          duration: 5000
+          duration: 1500
         });
         return
       }
@@ -160,7 +152,7 @@ export default {
          this.$toast({
           message: '手机号码为必填项',
           position: 'top',
-          duration: 5000
+          duration: 1500
         });
         return
       }
@@ -168,7 +160,7 @@ export default {
         this.$toast({
           message: '手机号码格式不正确',
           position: 'top',
-          duration: 5000
+          duration: 1500
         });
         return
       }
@@ -182,7 +174,7 @@ export default {
       this.$toast({
           message: '报名成功',
           position: 'top',
-          duration: 5000,
+          duration: 1500,
           className: "success"
         });
       this.photoUrl = ""
@@ -199,26 +191,10 @@ export default {
 .wrapper {
   width: 100%;
   height: 100%;
-  .tip {
-    background-color: #fdf6ec;
-    box-sizing: border-box;
-    color: #faecd8;
-    border-radius: 4px;
-    border: 1px solid #faecd8;
-    position: fixed;
-    left: 50%;
-    top: 20px;
-    transform: translateX(-50%);
-    transition: opacity .3s,transform .4s;
-    padding: 15px 15px 15px 20px;
-    display: flex;
-    align-items: center;
-  }
-  .index {
-    width: 100%;
-    height: 100%;
-    background: url("../../assets/images/background.jpg") no-repeat;
-    background-size: cover;
+  overflow-y:auto;
+  position: absolute;
+  background: url("../../assets/images/background.jpg") no-repeat;
+  background-size: cover;
   .index_scan {
     position: relative;
     padding-top: 48px;
@@ -252,6 +228,7 @@ export default {
         align-items: center;
         width: 344px;
         height: 343px;
+        overflow: hidden;
         img {
           width: 100%;
         }
@@ -300,7 +277,7 @@ export default {
       height: 78px;
       line-height: 78px;
       border-radius: 39px;
-      border: solid 1px #fff;
+      border: 1px solid #fff;
       color: #fff;
       font-size: 24px;
       input {
@@ -313,23 +290,19 @@ export default {
       }
     }
   }
-  .index_confirm {
-    margin-top: 28px;
-    .confirm {
-      cursor: pointer;
+  .confirm {
       color: #fff;
-      margin: 0 auto;
-      width: 479px;
+      width: 480px;
+      margin:40px auto;
       text-align: center;
-      line-height: 60px;
+      line-height: 80px;
       font-size: 30px;
-      height: 60px;
-      background: url("../../assets/images/confirm.png") no-repeat;
+      height: 80px;
+      background: #4f38fc;
+      border-radius:40px;
       background-size: cover;
     }
-  }
   .index_foot {
-    margin-top: 53px;
     padding-bottom: 50px;
     .foot {
       margin: 0 auto;
@@ -340,10 +313,11 @@ export default {
     }
   }
 }
-}
 </style>
 <style>
 .success {
+    width: 300px;
+    font-size: 16px;
     color: green !important;
     background-color: #fff;
   }

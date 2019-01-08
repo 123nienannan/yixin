@@ -6,13 +6,14 @@ import router from './router'
 import '@/assets/css/common.css'
 import '@/util/rem'
 import axios from 'axios'
-import { Toast } from 'mint-ui'
+import { Toast, Indicator  } from 'mint-ui'
 // Vue.$toast = Vue.prototype.$toast = Toast
  Vue.prototype.$toast = Toast
+ Vue.prototype.$indicator = Indicator
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL="http://hx.digirogar.com/"
+// axios.defaults.baseURL="http://hx.digirogar.com"
 
 Vue.prototype.$http= axios
 

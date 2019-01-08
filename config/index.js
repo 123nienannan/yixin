@@ -12,11 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/wx':{
-        target:"http://192.168.0.140:8084/",
+        target:"http://hx.digirogar.com",
         changeOrigin:true
       },
       '/file':{
-        target:"http://192.168.0.140:8084/",
+        target:"http://hx.digirogar.com",
         changeOrigin:true
       }
     },
