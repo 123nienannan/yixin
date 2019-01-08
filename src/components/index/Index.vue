@@ -216,9 +216,9 @@ export default {
   background-size: cover;
   .index_scan {
     position: relative;
-    padding-top: 144px;
+    padding-top: 100px;
     .click_pic {
-      margin-top: 144px;
+      margin-top: 100px;
       position: absolute;
       left: 50%;
       top: 0;
@@ -286,7 +286,7 @@ export default {
      }
   }
   .index_info {
-    margin-top: 125px;
+    margin-top: 100px;
     div {
       margin: 0 auto 20px;
       width: 479px;
