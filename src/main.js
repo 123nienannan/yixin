@@ -13,7 +13,7 @@ import { Toast, Indicator  } from 'mint-ui'
 
 Vue.config.productionTip = false
 
-// axios.defaults.baseURL="http://hx.digirogar.com"
+axios.defaults.baseURL="http://hx.digirogar.com"
 
 Vue.prototype.$http= axios
 

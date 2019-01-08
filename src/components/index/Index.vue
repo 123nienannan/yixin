@@ -30,9 +30,6 @@
     <div class="confirm" @click="enroll">
        上传照片并报名
     </div>
-    <div class="index_foot">
-      <div class="foot"></div>
-    </div>
  </div>
 </template>
 
@@ -193,7 +190,7 @@ export default {
   height: 100%;
   overflow-y:auto;
   position: absolute;
-  background: url("../../assets/images/background.jpg") no-repeat;
+  background: url("../../assets/images/background.png") no-repeat;
   background-size: cover;
   .index_scan {
     position: relative;
@@ -302,16 +299,6 @@ export default {
       border-radius:40px;
       background-size: cover;
     }
-  .index_foot {
-    padding-bottom: 50px;
-    .foot {
-      margin: 0 auto;
-      width: 392px;
-      height: 28px;
-      background: url("../../assets/images/foot_logo.png") no-repeat;
-      background-size: cover;
-    }
-  }
 }
 </style>
 <style>
