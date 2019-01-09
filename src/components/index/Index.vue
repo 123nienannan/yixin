@@ -10,8 +10,14 @@
         </div>
       </div>
     </div>
+    <div class="text_btn">
+      <span>
+        点击上传
+      <input type="file" ref="inputer" accept="image/*" multiple @change="fileUpload">
+    </span>
+    </div>
     <div class="scan_btn">
-        <span>点击上传非美颜正面免冠照</span>
+        <span>务必正面免冠，五官清楚显露</span>
     </div>
     <div class="index_info">
       <div>
@@ -254,8 +260,27 @@ export default {
       }
     }
   }
+  .text_btn {
+    padding-top: 45px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    span {
+     position: relative;
+     display: inline-block;
+     padding: 10px 5px;
+    }
+    input {
+     position: absolute;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     opacity: 0;
+    }
+  }
   .scan_btn {
-    margin-top: 46px;
+    margin-top: 5px;
     display: flex;
     justify-content: center;
     font-size: 24px;
@@ -286,7 +311,7 @@ export default {
      }
   }
   .index_info {
-    margin-top: 100px;
+    margin-top: 90px;
     div {
       margin: 0 auto 20px;
       width: 479px;
